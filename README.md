@@ -1,84 +1,96 @@
 # RAG-based PDF Query System
 
-This project implements a Retrieval-Augmented Generation (RAG) system that allows users to upload multiple PDF files, extract and preprocess the text, and then query the contents of those PDFs using OpenAI's GPT-3.5-turbo model. The system combines the strengths of information retrieval and text generation to provide accurate and context-aware responses to user queries.
+**Chat with your documents!** This project implements a **Retrieval-Augmented Generation (RAG)** system built on Streamlit that allows users to upload multiple PDF files and query their contents using the power of OpenAI's GPT-3.5-turbo.
 
-## Description
+It transforms static documents into a dynamic, searchable knowledge base, providing **accurate** and **context-aware** answers grounded entirely in your uploaded files.
 
-The RAG-based PDF Query System is designed to:
-1. **Extract Text from PDFs:** Utilize `pdfplumber` to accurately extract text from multiple PDF files.
-2. **Preprocess Text:** Clean and tokenize the extracted text for better processing.
-3. **Create a Knowledge Base:** Use TF-IDF vectorization to create a searchable knowledge base from the extracted text.
-4. **Retrieve Relevant Texts:** Retrieve the most relevant texts based on the user query using cosine similarity.
-5. **Generate Responses:** Use OpenAI's GPT-3.5-turbo model to generate responses based on the retrieved texts and user query.
+---
 
-### Key Components and Technologies Used
+## Features and Capabilities
 
-- **Streamlit:** For building an interactive web application.
-- **pdfplumber:** For extracting text from PDF files.
-- **NLTK:** For text preprocessing tasks such as tokenization.
-- **Scikit-learn:** For TF-IDF vectorization and text retrieval.
-- **OpenAI GPT-3.5-turbo:** For generating context-aware responses to user queries.
+* **Multi-PDF Support:** Upload and merge knowledge from multiple PDF documents into a single knowledge base.
+* **Accurate Extraction:** Uses `pdfplumber` for robust and accurate text extraction, even from complex PDF layouts.
+* **Context-Aware AI:** Leverages the RAG technique to retrieve the most relevant text chunks (using **TF-IDF** and **Cosine Similarity**) before generating a response with the **OpenAI GPT-3.5-turbo** model.
+* **Interactive Web App:** Powered by **Streamlit** for an easy-to-use, real-time feedback interface.
+* **Secure API Handling:** Uses a `.env` file to securely manage your OpenAI API Key.
 
-### Why This Project?
+---
 
-- **Combining Retrieval and Generation:** The project combines information retrieval with advanced text generation, providing users with accurate and context-aware responses.
-- **Interactive Interface:** Streamlit offers an easy-to-use interface for uploading PDFs and querying their contents.
-- **Advanced Text Extraction:** `pdfplumber` ensures accurate extraction of text from PDFs, even from complex layouts.
-- **State-of-the-art Language Model:** OpenAI's GPT-3.5-turbo is one of the most advanced language models, ensuring high-quality responses.
+## Technology Stack
 
-## How to Run
+| Component | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Frontend/App** | `Streamlit` | Interactive web application and user interface. |
+| **Text Extraction** | `pdfplumber` | Accurate retrieval of text from PDF files. |
+| **NLP & Preprocessing** | `NLTK` | Tokenization and cleaning of extracted text. |
+| **Vectorization/Retrieval** | `Scikit-learn` | TF-IDF Vectorization and Cosine Similarity for fast retrieval. |
+| **Generative Model** | `OpenAI GPT-3.5-turbo` | Generating grounded, natural-language answers. |
+
+---
+
+## Getting Started
+
+Follow these steps to set up and run the application locally.
 
 ### Prerequisites
 
-- Python 3.7 or higher
-- OpenAI API Key (you can get it from the [OpenAI website](https://beta.openai.com/signup/))
+* **Python:** Version 3.7 or higher.
+* **OpenAI API Key:** Required to use the GPT-3.5-turbo model. Get one from the [OpenAI website](https://beta.openai.com/signup/).
 
 ### Installation
 
-1. **Clone the repository:**
+1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/rag-pdf-query-system.git
+    git clone [https://github.com/your-username/rag-pdf-query-system.git](https://github.com/your-username/rag-pdf-query-system.git)
     cd rag-pdf-query-system
     ```
 
-2. **Create a virtual environment and activate it:**
+2.  **Create and activate a virtual environment:**
     ```bash
     python -m venv env
-    source env/bin/activate  # On Windows use `env\Scripts\activate`
+    source env/bin/activate  # On Linux/macOS
+    # env\Scripts\activate   # On Windows
     ```
 
-3. **Install the required packages:**
+3.  **Install the required packages:**
     ```bash
     pip install -r requirements.txt
     ```
 
-4. **Download NLTK data:**
+4.  **Download NLTK data:**
     ```python
-    import nltk
-    nltk.download('punkt')
+    python -c "import nltk; nltk.download('punkt')"
     ```
 
-5. **Create a `.env` file in the project root directory:**
+5.  **Configure API Key:**
+    * Create a file named **`.env`** in the project's root directory.
+    * Add your API key inside this file (Git is configured to ignore this file for security).
+
     ```text
+    # .env
     OPENAI_API_KEY=your_openai_api_key_here
     ```
 
 ### Running the Application
 
-1. **Run the Streamlit application:**
+1.  **Start the Streamlit application:**
     ```bash
     streamlit run app.py
     ```
 
-2. **Use the Application:**
-    - Open the URL provided by Streamlit (usually `http://localhost:8501`) in your web browser.
-    - Upload one or more PDF files.
-    - Enter your query in the input box.
-    - View the generated response based on the contents of the uploaded PDFs.
+2.  **Access:** Open your web browser and navigate to the URL provided by Streamlit (typically `http://localhost:8501`).
 
-### Notes
+### How to Use
 
-- The progress bar in the Streamlit application provides real-time feedback during the PDF processing stages.
-- Ensure you have a stable internet connection to interact with the OpenAI API for generating responses.
+1.  Use the sidebar to **upload one or more PDF files**.
+2.  Wait briefly for the progress bar to complete the text extraction and knowledge base creation.
+3.  Enter your question into the chat box.
+4.  The system will instantly retrieve relevant text and use it to formulate a precise answer.
 
-This project demonstrates the integration of various tools and libraries to create a powerful and interactive query system for PDF documents.
+---
+
+## Notes
+
+* Ensure your `.env` file is protected and your API key is correct.
+* A stable internet connection is required for the application to communicate with the OpenAI API.
+* This project is excellent for use cases like querying technical manuals, financial reports, or large academic papers.
