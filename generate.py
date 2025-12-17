@@ -1,38 +1,34 @@
 import os
-
-import openai
+from typing import List
+from openai import OpenAI
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 load_dotenv()
 
-# Retrieve the OpenAI API key from the environment variable
-openai.api_key = os.getenv('OPENAI_API_KEY')
+# Initialize the client and validate key
+api_key = os.getenv('OPENAI_API_KEY')
+if not api_key:
+    raise ValueError("OPENAI_API_KEY not found in environment variables.")
 
-def generate_response(retrieved_texts, query, max_tokens=150):
+client = OpenAI(api_key=api_key)
+
+def generate_response(retrieved_texts: List[str], query: str, max_tokens: int = 150) -> str:
     """
-    Generates a response based on the retrieved texts and query.
-
-    Args:
-    retrieved_texts (list): List of retrieved text strings.
-    query (str): Query string.
-    max_tokens (int): Maximum number of tokens for the response.
-
-    Returns:
-    str: Generated response.
+    Generates an AI response using the modern OpenAI client.
     """
-    context = "\n".join(retrieved_texts)
-    prompt = f"Context: {context}\n\nQuestion: {query}\n\nAnswer:"
+    context = "\n\n---\n\n".join(retrieved_texts)
+    prompt = f"Use the following context to answer the question.\n\nContext: {context}\n\nQuestion: {query}"
     
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=max_tokens,
-        n=1,
-        stop=None,
-        temperature=0.5,
-    )
-    return response.choices[0].message['content']
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant. Use the context provided to answer accurately."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=max_tokens,
+            temperature=0.5,
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        return f"Error generating response: {e}"
