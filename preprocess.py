@@ -1,25 +1,22 @@
 import string
-
+from typing import List
 import nltk
-
-nltk.download('punkt')
 from nltk.tokenize import word_tokenize
 
+# Ensure NLTK resources are available without redundant downloads
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
 
-def preprocess_text(texts):
+def preprocess_text(texts: List[str]) -> List[List[str]]:
     """
-    Preprocesses a list of texts by converting to lowercase, removing punctuation, and tokenizing.
-
-    Args:
-    texts (list): List of text strings to preprocess.
-
-    Returns:
-    list: List of preprocessed and tokenized texts.
+    Cleans and tokenizes a list of strings.
     """
-    processed_texts = []
-    for text in texts:
-        text = text.lower()
-        text = text.translate(str.maketrans('', '', string.punctuation))
-        tokens = word_tokenize(text)
-        processed_texts.append(tokens)
-    return processed_texts
+    # Create a translation table for removing punctuation efficiently
+    table = str.maketrans('', '', string.punctuation)
+    
+    return [
+        word_tokenize(text.lower().translate(table)) 
+        for text in texts
+    ]
