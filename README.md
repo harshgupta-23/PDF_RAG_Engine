@@ -48,8 +48,8 @@ Follow these steps to set up and run the application locally.
 2.  **Create and activate a virtual environment:**
     ```bash
     python -m venv env
-    source env/bin/activate  # On Linux/macOS
-    # env\Scripts\activate   # On Windows
+    env\Scripts\activate   # On Windows
+    # source env/bin/activate  # On Linux/macOS
     ```
 
 3.  **Install the required packages:**
